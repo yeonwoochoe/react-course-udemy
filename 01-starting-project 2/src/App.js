@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 import AddUser from "./components/Users/AddUser";
 import UsersList from "./components/Users/UsersList";
@@ -14,11 +14,11 @@ function App() {
   };
 
   return (
-    <div>
+    <Fragment>
       {/*addUserHandler 상태를 변경하는 함수를 props로전달 */}
       <AddUser onAddUser={addUserHandler} />
       <UsersList users={usersList} />
-    </div>
+    </Fragment>
   );
 }
 
