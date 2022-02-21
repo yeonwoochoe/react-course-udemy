@@ -6,10 +6,18 @@ import { useEffect, useState } from "react";
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState();
 
   useEffect(() => {
     const fetchMeals = async () => {
-      const respons = await fetch("https://react-http-f1906-default-rtdb.firebaseio.com/meals.json");
+      const respons = await fetch(
+        "https://react-http-f1906-default-rtdb.firebaseio.com/meals.json"
+      );
+
+      if (!respons.ok) {
+        throw new Error("오류가 있습니다!");
+      }
+
       const responsData = await respons.json();
 
       const loadedMeals = [];
@@ -25,8 +33,19 @@ const AvailableMeals = () => {
       setIsLoading(false);
     };
 
-    fetchMeals();
+    fetchMeals().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
   }, []);
+
+  if (httpError) {
+    return (
+      <section className={classes.MealsError}>
+        <p>{httpError}</p>
+      </section>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -36,7 +55,15 @@ const AvailableMeals = () => {
     );
   }
 
-  const mealsList = meals.map((meal) => <MealItem key={meal.id} id={meal.id} name={meal.name} description={meal.description} price={meal.price} />);
+  const mealsList = meals.map((meal) => (
+    <MealItem
+      key={meal.id}
+      id={meal.id}
+      name={meal.name}
+      description={meal.description}
+      price={meal.price}
+    />
+  ));
 
   return (
     <section className={classes.meals}>
