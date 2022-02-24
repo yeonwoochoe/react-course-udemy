@@ -1,59 +1,42 @@
-import { createStore } from "redux";
-import { createSlice } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
-const initialState = { counter: 0, showCounter: true };
+import counterReducer from "./counter";
+import authReducer from "./auth";
 
-createSlice({
-  name: "counter",
-  initialState,
-  reducers: {
-    increment(state) {
-      state.counter++;
-    },
-    decrement(state) {
-      state.counter--;
-    },
-    increase(state, action) {
-      state.counter = state.counter + action.amount;
-    },
-    toggleCounter(state) {
-      state.showCounter = !state.showCounter;
-    },
-  },
+// const counterReducer = (state = initialState, action) => {
+//   if (action.type === "increment") {
+//     return {
+//       counter: state.counter + 1,
+//       showCounter: state.showCounter,
+//     };
+//   }
+
+//   if (action.type === "increase") {
+//     return {
+//       counter: state.counter + action.amount,
+//       showCounter: state.showCounter,
+//     };
+//   }
+
+//   if (action.type === "decrement") {
+//     return {
+//       counter: state.counter - 1,
+//       showCounter: state.showCounter,
+//     };
+//   }
+
+//   if (action.type === "toggle") {
+//     return {
+//       showCounter: !state.showCounter,
+//       counter: state.counter,
+//     };
+//   }
+
+//   return state;
+// }; // 순수함수만 가능 : 입력와 값이 같다면 항상 같은 출력을 생산
+
+const store = configureStore({
+  reducer: { counter: counterReducer, auth: authReducer },
 });
-
-const counterReducer = (state = initialState, action) => {
-  if (action.type === "increment") {
-    return {
-      counter: state.counter + 1,
-      showCounter: state.showCounter,
-    };
-  }
-
-  if (action.type === "increase") {
-    return {
-      counter: state.counter + action.amount,
-      showCounter: state.showCounter,
-    };
-  }
-
-  if (action.type === "decrement") {
-    return {
-      counter: state.counter - 1,
-      showCounter: state.showCounter,
-    };
-  }
-
-  if (action.type === "toggle") {
-    return {
-      showCounter: !state.showCounter,
-      counter: state.counter,
-    };
-  }
-
-  return state;
-}; // 순수함수만 가능 : 입력와 값이 같다면 항상 같은 출력을 생산
-
-const store = createStore(counterReducer);
 
 export default store;
