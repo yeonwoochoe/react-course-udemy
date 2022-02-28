@@ -9,7 +9,8 @@ function App() {
       <MainHeader />
       <main>
         <Routes>
-          <Route path="/*" element={<Welcome />} />
+          <Route path="/welcome" element={<Welcome />} />
+
           <Route path="/products/*" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
         </Routes>

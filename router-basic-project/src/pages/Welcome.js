@@ -1,11 +1,10 @@
-import { Route } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const Welcome = () => {
   return (
     <section>
       <h1>The welcome Page</h1>
-
-      <p>Welcome, new user!</p>
+      <Outlet />
     </section>
   );
 };
