@@ -1,7 +1,13 @@
-import React from "react";
+import { Route } from "react-router-dom";
 
 const Welcome = () => {
-  return <h1>The welcome Page</h1>;
+  return (
+    <section>
+      <h1>The welcome Page</h1>
+
+      <p>Welcome, new user!</p>
+    </section>
+  );
 };
 
 export default Welcome;
