@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
@@ -8,21 +8,11 @@ const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://react-hooks-update-d1151-default-rtdb.firebaseio.com/ingredients.json"
-    )
-      .then((response) => response.json())
-      .then((responseData) => {
-        const loadedIngredients = [];
-        for (const key in responseData) {
-          loadedIngredients.push({
-            id: key,
-            title: responseData[key].title,
-            amount: responseData[key].amount,
-          });
-        }
-        setUserIngredients(loadedIngredients);
-      });
+    console.log("RENDERING INGREDIENTS", userIngredients);
+  }, [userIngredients]);
+
+  const filteredIngredientsHandler = useCallback((filteredIngredients) => {
+    setUserIngredients(filteredIngredients);
   }, []);
 
   const addIngredientHandler = (ingredient) => {
@@ -35,13 +25,12 @@ const Ingredients = () => {
       }
     )
       .then((response) => {
-        return response.json(); //바디를 추출해서  json에서 자바스크립트 코드로 전환
+        return response.json();
       })
       .then((responseData) => {
         setUserIngredients((prevIngredients) => [
           ...prevIngredients,
           { id: responseData.name, ...ingredient },
-          //0 이상 1 미만의 부동소숫점 의사 난수.
         ]);
       });
   };
@@ -57,7 +46,7 @@ const Ingredients = () => {
       <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={filteredIngredientsHandler} />
         <IngredientList
           ingredients={userIngredients}
           onRemoveItem={removeIngredientHandler}
